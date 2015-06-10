@@ -33,7 +33,6 @@ var App = React.createClass({
 
   componentWillMount: function() {
     Router.render = function(component, enableTransition) {
-      console.log(component);
       this.setState({
         page: component,
         enableTransition: enableTransition ? enableTransition : this.state.enableTransition
@@ -55,11 +54,15 @@ var App = React.createClass({
   render: function() {
     if (this.state.enableTransition) {
       var enterTransition = [[
-        'transition.fadeIn',
-        {duration: 600}
+        'transition.whirlIn'
+      ]];
+      var leaveTransition = [[
+        'transition.whirlOut'
       ]];
       return (
-        <VelocityTransitionGroup enterTransition={enterTransition}>
+        <VelocityTransitionGroup enterTransition={enterTransition}
+                                 leaveTransition={leaveTransition}
+                                 >
             {this.state.page}
         </VelocityTransitionGroup>
       );
