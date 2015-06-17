@@ -1,5 +1,3 @@
-window.$ = require('jquery');
-window.jQuery = require('jquery');
 window.React = require('react');
 require('moment/locale/zh-tw');
 require('es6-promise').polyfill();

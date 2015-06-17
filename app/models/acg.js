@@ -125,7 +125,7 @@ var ACGModel = module.exports = assign({}, EventEmitter.prototype, {
           var acgs = Immutable.fromJS(res.body);
           _lastSearch = acgs;
           acgs.forEach(function(acg) {
-            _acgs = _acgs.set(acg.id, acg);
+            _acgs = _acgs.set(acg.get('id'), acg);
           }, this);
           this.emitChange();
           return acgs;

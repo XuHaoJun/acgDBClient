@@ -209,11 +209,7 @@ var Home = module.exports = React.createClass({
   },
 
   componentDidMount: function() {
-    this.setState({containerHeight: $(window).height() - 112});
-    var dom = React.findDOMNode(this.refs.infiniteContent);
-    if (dom) {
-      $(dom).height(this.state.containerHeight);
-    }
+    this.setState({containerHeight: window.innerHeight - 112});
   },
 
   _onActive: function(tab){

@@ -210,7 +210,7 @@ var ACGs = module.exports = React.createClass({
           <AppBar title={title}
                   iconElementLeft={appBarLeft}
                   zDepth={0} />
-          <InfiniteList containerHeight={$(window).height() - 64} />
+          <InfiniteList containerHeight={window.innerHeight - 64} />
       </div>
     );
   }
