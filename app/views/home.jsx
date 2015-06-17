@@ -220,8 +220,18 @@ var Home = module.exports = React.createClass({
     if (tab.props.title === this.state.title) {
       return;
     }
+    if (tab.props.route === '/search') {
+      this.refs.search.focusSearchBar();
+      var q = ACGModel.getLastSearchQuery();
+      if (q !== '') {
+        Router.show(tab.props.route+'?q='+q,  null, false);
+      } else {
+        Router.show(tab.props.route,  null, false);
+      }
+    } else {
+      Router.show(tab.props.route,  null, false);
+    }
     this.setState({title: tab.props.title});
-    Router.show(tab.props.route,  null, false);
   },
 
   getStyles: function() {
@@ -269,7 +279,8 @@ var Home = module.exports = React.createClass({
                    title="搜尋"
                    route="/search"
                    onActive={this._onActive} >
-                  <Search />
+                  <Search ref="search"
+                          routerContext={this.props.routerContext} />
               </Tab>
               <Tab label={<FontIcon className="material-icons md-36">supervisor_account</FontIcon>}
                    title="聊天"

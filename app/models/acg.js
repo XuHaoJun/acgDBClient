@@ -10,6 +10,7 @@ var _acgs = Immutable.fromJS({});
 var _lastACGs = Immutable.fromJS({});
 
 var _lastSearch = Immutable.fromJS([]);
+var _lastSearchQuery = '';
 
 var _acgsPage = Immutable.fromJS({});
 
@@ -36,6 +37,10 @@ var ACGModel = module.exports = assign({}, EventEmitter.prototype, {
 
   getLastSearch: function() {
     return _lastSearch;
+  },
+
+  getLastSearchQuery: function() {
+    return _lastSearchQuery;
   },
 
   fetchOneById: function(id) {
@@ -100,6 +105,7 @@ var ACGModel = module.exports = assign({}, EventEmitter.prototype, {
   search: function(q, options, storeIt) {
     storeIt = storeIt === undefined ? true : storeIt;
     var url = '/api/acgs/search?q=' + q;
+    _lastSearchQuery = q;
     var k, v;
     for(k in options) {
       v = options[k];

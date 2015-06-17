@@ -8,15 +8,19 @@ var SearchBar = module.exports = React.createClass({
   mixins: [PureRenderMixin],
 
   getSuggestions: function(input, callback) {
-    Router.show('/search?q='+input, null, false);
     ACGModel.fetchSearchSuggest(input, 'nameTW', 5).then(function(v) {
       callback(null, v);
     });
   },
 
+  getAutosuggest: function() {
+    return this.refs.autoSuggest;
+  },
+
   render: function() {
     return (
       <Autosuggest {...this.props}
+                   ref="autoSuggest"
                    suggestions={this.getSuggestions}
       />
     );
