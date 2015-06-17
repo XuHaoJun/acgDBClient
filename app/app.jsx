@@ -1,11 +1,13 @@
 window.$ = require('jquery');
 window.jQuery = require('jquery');
 window.React = require('react');
+require('moment/locale/zh-tw');
+require('es6-promise').polyfill();
 
 window.prerenderReady = false;
 setTimeout(function() {
   window.prerenderReady = true;
-}, 2500);
+}, 3000);
 
 var React = require('react');
 var PureRenderMixin = require('react/addons').addons.PureRenderMixin;
@@ -70,6 +72,16 @@ var App = React.createClass({
     return this.state.page;
   }
 });
+
+
+if (window.applicationCache) {
+  applicationCache.addEventListener('updateready', function() {
+    if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
+      window.applicationCache.swapCache();
+      window.location.reload();
+    }
+  });
+}
 
 React.render(
   <App />,

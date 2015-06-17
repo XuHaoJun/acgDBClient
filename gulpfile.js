@@ -12,8 +12,8 @@ var bundleJsFilename = 'bundle.js';
 var cssFiles = {
   stylus: ['assets/stylesheets/**/*.styl'],
   sass: ['assets/stylesheets/**/*.scss'],
-  css: ['node_modules/bootstrap/dist/css/bootstrap.min.css',
-        'node_modules/toastr/toastr.min.css']
+  less: ['assets/stylesheets/**/*.less'],
+  css: ['assets/stylesheets/**/*.css']
 };
 var bundleCssDest = (argv.bundleCssDest ? argv.bundleCssDest : 'dist/stylesheets');
 var bundleCssFilename = 'bundle.css';
@@ -37,6 +37,7 @@ var gStreamify = require('gulp-streamify');
 var minifyCSS = require('gulp-minify-css');
 var stylus = require('gulp-stylus');
 var sass = require('gulp-sass');
+var less = require('gulp-less');
 var prefix = require('gulp-autoprefixer');
 var concat = require('gulp-concat');
 var source = require('vinyl-source-stream');
@@ -136,7 +137,10 @@ gulp.task('css:build', function() {
         .pipe(stylus());
   var _css = gulp.src(cssFiles.css);
   var _sass = gulp.src(cssFiles.sass).pipe(sass().on('error', sass.logError));
-  return merge(_stylus, _css, _sass)
+  var _less = gulp.src(cssFiles.less)
+        .pipe(plumber({errorHandler: handleError('css:build')}))
+        .pipe(less());
+  return merge(_stylus, _css, _sass, _less)
     .pipe(prefix("last 3 version"))
     .pipe(minifyCSS({keepSpecialComments: 0}))
     .pipe(concat(bundleCssFilename, {newLine: ''}))

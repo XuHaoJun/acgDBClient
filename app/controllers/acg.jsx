@@ -8,7 +8,6 @@ var ACGController = module.exports = function(ctx) {
   // force update by time
   var id = parseInt(ctx.params.acgId);
   var acg = ACGModel.getById(id);
-  console.log(acg);
   if (acg === null) {
     ACGModel.fetchOneById(id);
   }
