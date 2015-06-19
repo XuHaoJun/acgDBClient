@@ -53,16 +53,24 @@ var InfiniteList = React.createClass({
   },
 
   componentDidMount: function() {
+    ACGModel.addChangeListener(this._onChange);
     if (this.state.numPage === 0) {
       this.handleInfiniteLoad();
     }
+    this.handleScrollTop();
+  },
+
+  handleScrollTop: function() {
     if (this.refs.infinite) {
       var dom = React.findDOMNode(this.refs.infinite);
       if (dom.scrollHeight >= _lastACGsListScrollTop) {
         dom.scrollTop = _lastACGsListScrollTop;
       }
     }
-    ACGModel.addChangeListener(this._onChange);
+  },
+
+  componentDidUpdate: function() {
+    this.handleScrollTop();
   },
 
   componentWillUnmount: function() {
@@ -219,7 +227,7 @@ var Home = module.exports = React.createClass({
     if (tab.props.route === '/search') {
       this.refs.search.focusSearchBar();
       var q = ACGModel.getLastSearchQuery();
-      if (q !== '') {
+      if (q !== '' && q) {
         Router.show(tab.props.route+'?q='+q,  null, false);
       } else {
         Router.show(tab.props.route,  null, false);

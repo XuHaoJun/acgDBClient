@@ -12,6 +12,7 @@ var SearchBar = require('./searchBar');
 var ListItem = require('./ACGListItem');
 
 var _lastACGsListScrollTop = 0;
+var _lastSearchValue = '';
 
 var Search= module.exports = React.createClass({
   mixins: [PureRenderMixin],
@@ -34,15 +35,22 @@ var Search= module.exports = React.createClass({
 
   componentDidMount: function() {
     ACGModel.addChangeListener(this._onChange);
-    if (this.props.routerContext && this.props.routerContext.query.q) {
+    var q = _lastSearchValue || '';
+    q = this.props.routerContext.query.q ? this.props.routerContext.query.q : q;
+    _lastSearchValue = q;
+    if (q !== '' && q) {
       var autoSuggest =  this.refs.searchBar.getAutosuggest();
-      ACGModel.search(this.props.routerContext.query.q);
-      autoSuggest.setState({value: this.props.routerContext.query.q});
+      ACGModel.search(q);
+      autoSuggest.setState({value: q});
       this.setState({searchACGs: Immutable.fromJS([]),
                      searching: true});
     } else {
       this.focusSearchBar();
     }
+    this.handleScrollTop();
+  },
+
+  handleScrollTop: function() {
     if (this.refs.infinite) {
       var dom = React.findDOMNode(this.refs.infinite);
       if (dom.scrollHeight >= _lastACGsListScrollTop) {
@@ -51,14 +59,25 @@ var Search= module.exports = React.createClass({
     }
   },
 
+  componentDidUpdate: function(prevProps, prevState) {
+    this.handleScrollTop();
+  },
+
   componentWillUnmount: function() {
     ACGModel.removeChangeListener(this._onChange);
   },
 
   handleSearchSend: function(e) {
-    if (e.nativeEvent.keyCode === 13) {
-      ACGModel.search(e.target.value);
-      Router.show('/search?q='+e.target.value);
+    if (e.nativeEvent.keyCode === 13 && e.target.value !== '') {
+      ACGModel.search(e.target.value).then(function() {
+        if (this.refs.infinite) {
+          var dom = React.findDOMNode(this.refs.infinite);
+          _lastACGsListScrollTop = 0;
+          dom.scrollTop = _lastACGsListScrollTop;
+        }
+      }.bind(this));
+      _lastSearchValue = e.target.value;
+      Router.show('/search?q='+e.target.value, null, false);
     }
   },
 
