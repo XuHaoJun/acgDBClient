@@ -254,15 +254,23 @@ var Home = module.exports = React.createClass({
   render: function() {
     document.title = this.state.title + '- acgDB';
     var styles = this.getStyles();
-    var options = [
-      { value: '火影', label: '火影' },
-      { value: 'two', label: 'Two' }
-    ];
     var appBarRight = (
       <IconButton touch onClick={this.handleLeftNav} >
           <FontIcon className="material-icons"
                     style={styles.iconButton}>keyboard_arrow_down</FontIcon>
       </IconButton>
+    );
+    var timelineIcon = (
+      <FontIcon style={styles.iconButton}
+                className="material-icons md-36">access_time</FontIcon>
+    );
+    var searchIcon = (
+      <FontIcon style={styles.iconButton}
+                className="material-icons md-36">search</FontIcon>
+    );
+    var chatIcon = (
+      <FontIcon style={styles.iconButton}
+                className="material-icons md-36">supervisor_account</FontIcon>
     );
     return (
       <div>
@@ -271,7 +279,7 @@ var Home = module.exports = React.createClass({
                   zDepth={0} />
           <LeftNav ref="leftNav" docked={false} menuItems={_menuItems} />
           <Tabs ref="tabs" initialSelectedIndex={this.state.initialSelectedIndex} >
-              <Tab label={<FontIcon className="material-icons md-36">access_time</FontIcon>}
+              <Tab label={timelineIcon}
                    title="最新資訊"
                    route="/"
                    onActive={this._onActive} >
@@ -279,14 +287,14 @@ var Home = module.exports = React.createClass({
                       <InfiniteList containerHeight={this.state.containerHeight} />
                   </div>
               </Tab>
-              <Tab label={<FontIcon className="material-icons md-36">search</FontIcon>}
+              <Tab label={searchIcon}
                    title="搜尋"
                    route="/search"
                    onActive={this._onActive} >
                   <Search ref="search"
                           routerContext={this.props.routerContext} />
               </Tab>
-              <Tab label={<FontIcon className="material-icons md-36">supervisor_account</FontIcon>}
+              <Tab label={chatIcon}
                    title="聊天"
                    route="/chat"
                    onActive={this._onActive} >

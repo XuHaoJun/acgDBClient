@@ -1,4 +1,4 @@
-var assign = require('object-assign')
+var assign = require('object-assign');
 var React = require('react');
 var PureRenderMixin = require('react/addons').addons.PureRenderMixin;
 var ThemeManager = require('material-ui/lib/styles/theme-manager')();

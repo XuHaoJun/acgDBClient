@@ -85,33 +85,41 @@ var Search= module.exports = React.createClass({
     _lastACGsListScrollTop = list.scrollTop;
   },
 
+  _renderLoading: function() {
+    return (
+      <center>
+          <CircularProgress mode="indeterminate"
+                            style={{display: 'block', marginLeft: 'auto',
+                                    marginRight: 'auto'}} />
+      </center>
+    );
+  },
+
+  _renderList: function() {
+    return (
+      <Infinite ref="infinite"
+                elementHeight={100}
+                handleScroll={this.handleScroll}
+                containerHeight={this.props.containerHeigt ? this.props.containerHeigt : 500}
+                infiniteLoadBeginBottomOffset={200}
+                isInfiniteLoading={false}
+                timeScrollStateLastsForAfterUserScrolls={10}
+                >
+          {
+            this.state.searchACGs.map(function(acg, i) {
+              return (<ListItem key={i} acg={acg} />);
+            })
+           }
+      </Infinite>
+    );
+  },
+
   render: function() {
     var content;
     if (this.state.searchACGs.count() === 0 && this.state.searching) {
-      content = (
-        <center>
-            <CircularProgress mode="indeterminate"
-                              style={{display: 'block', marginLeft: 'auto',
-                                      marginRight: 'auto'}} />
-        </center>
-      );
+      content = this._renderLoading();
     } else {
-      content = (
-        <Infinite ref="infinite"
-                  elementHeight={100}
-                  handleScroll={this.handleScroll}
-                  containerHeight={this.props.containerHeigt ? this.props.containerHeigt : 500}
-                  infiniteLoadBeginBottomOffset={200}
-                  isInfiniteLoading={false}
-                  timeScrollStateLastsForAfterUserScrolls={10}
-                  >
-            {
-              this.state.searchACGs.map(function(acg, i) {
-                return (<ListItem key={i} acg={acg} />);
-              })
-             }
-        </Infinite>
-      );
+      content = this._renderList();
     }
     return (
       <div>
