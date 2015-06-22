@@ -29,19 +29,14 @@ html, body {
   position: relative;
 }
 .react-autosuggest input {
+  margin-left: 25vw;
   width: 50vw;
   height: 30px;
   padding: 10px 20px;
+  margin-top: 10px;
   font-size: 18px;
   border: 1px solid #aaaaaa;
   border-radius: 4px;
-}
-.react-autosuggest input[aria-expanded="true"] {
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-}
-.react-autosuggest input:focus {
-  outline: none;
 }
 .react-autosuggest__suggestions {
   position: absolute;
@@ -49,6 +44,7 @@ html, body {
   width: 50vw;
   margin: 0;
   padding: 0;
+  margin-left: 25vw;
   list-style-type: none;
   border: 1px solid #aaaaaa;
   background-color: #fff;
@@ -56,6 +52,13 @@ html, body {
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
   z-index: 2;
+}
+.react-autosuggest input[aria-expanded="true"] {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.react-autosuggest input:focus {
+  outline: none;
 }
 .react-autosuggest__suggestions-section:first-child .react-autosuggest__suggestions-section-name {
   border-top: 0;
