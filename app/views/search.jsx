@@ -77,6 +77,8 @@ var Search= module.exports = React.createClass({
         }
       }.bind(this));
       _lastSearchValue = e.target.value;
+      this.setState({searchACGs: Immutable.fromJS([]),
+                     searching: true});
       Router.show('/search?q='+e.target.value, null, false);
     }
   },
@@ -88,9 +90,9 @@ var Search= module.exports = React.createClass({
   _renderLoading: function() {
     return (
       <center>
-          <CircularProgress mode="indeterminate"
+          <CircularProgress mode="indeterminate" size={2}
                             style={{display: 'block', marginLeft: 'auto',
-                                    marginRight: 'auto'}} />
+                                    marginTop: '20px', marginRight: 'auto'}} />
       </center>
     );
   },
